@@ -93,7 +93,7 @@
         "type": "font_picker",
         "id": "type_header_font",
         "label": "Headings font",
-        "default": "helvetica_neue_n4"
+        "default": "assistant_n4"
       },
       {
         "type": "header",
@@ -103,7 +103,7 @@
         "type": "font_picker",
         "id": "type_body_font",
         "label": "Body font",
-        "default": "helvetica_neue_n4"
+        "default": "assistant_n4"
       },
       {
         "type": "range",
@@ -163,7 +163,7 @@
         "max": 40,
         "step": 2,
         "unit": "px",
-        "default": 25
+        "default": 24
       }
     ]
   },
