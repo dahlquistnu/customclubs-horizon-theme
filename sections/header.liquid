@@ -68,33 +68,43 @@
 .site-nav li > button svg { transition: transform 0.2s; }
 .site-nav li > button[aria-expanded="true"] svg { transform: rotate(180deg); }
 
-/* Dropdown */
-.site-nav__dropdown {
+/* Dropdown — white panel, matching customclubs.se */
+.site-nav__dropdown-wrap {
   display: none;
   position: absolute;
-  top: calc(100% + 6px);
+  top: 100%;
   left: 0;
+  padding-top: 20px;
+  z-index: 300;
   min-width: 200px;
-  background: #001914;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-top: 2px solid #00E697;
-  border-radius: 0 0 12px 12px;
-  padding: 8px;
+}
+.site-nav__item--dropdown:hover .site-nav__dropdown-wrap,
+.site-nav__item--dropdown .site-nav__trigger[aria-expanded="true"] ~ .site-nav__dropdown-wrap {
+  display: block;
+}
+.site-nav__dropdown {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
   list-style: none;
   margin: 0;
-  z-index: 300;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  min-width: 200px;
 }
+.site-nav__dropdown li { list-style: none; }
 .site-nav__dropdown a {
-  display: block;
-  padding: 9px 12px;
-  color: rgba(255,255,255,0.85);
-  font-size: 13px;
-  border-radius: 8px;
+  display: inline-flex;
+  width: 100%;
+  padding: 6px 0;
+  color: #00352B;
+  font-size: 14px;
   text-decoration: none;
-  transition: background 0.15s, color 0.15s;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
+  margin-bottom: 4px;
 }
-.site-nav__dropdown a:hover { background: rgba(0,230,151,0.12); color: #00E697; }
+.site-nav__dropdown li:last-child a { margin-bottom: 0; }
+.site-nav__dropdown a:hover { border-color: #001914; text-decoration: none; }
 
 /* Search */
 .site-search {
@@ -283,11 +293,13 @@
                   {{ link.title | escape }}
                   <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <ul class="site-nav__dropdown" role="list">
-                  {%- for child in link.links -%}
-                    <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
-                  {%- endfor -%}
-                </ul>
+                <div class="site-nav__dropdown-wrap">
+                  <ul class="site-nav__dropdown" role="list">
+                    {%- for child in link.links -%}
+                      <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
               </li>
             {%- else -%}
               <li class="site-nav__item">
@@ -376,20 +388,22 @@
 
 <script>
 (function() {
-  // Dropdown behaviour
+  // Dropdown behaviour — CSS :hover handles desktop, JS handles click/touch
   document.querySelectorAll('.site-nav__item--dropdown').forEach(function(item) {
     var btn = item.querySelector('.site-nav__trigger');
-    var menu = item.querySelector('.site-nav__dropdown');
-    if (!btn || !menu) return;
+    var wrap = item.querySelector('.site-nav__dropdown-wrap');
+    if (!btn || !wrap) return;
 
-    function open() { btn.setAttribute('aria-expanded','true'); menu.style.display='block'; }
-    function close() { btn.setAttribute('aria-expanded','false'); menu.style.display=''; }
+    function open() { btn.setAttribute('aria-expanded','true'); wrap.style.display='block'; }
+    function close() { btn.setAttribute('aria-expanded','false'); wrap.style.display=''; }
 
-    item.addEventListener('mouseenter', open);
-    item.addEventListener('mouseleave', close);
+    // Click toggle (mobile + keyboard)
     btn.addEventListener('click', function() {
       btn.getAttribute('aria-expanded') === 'true' ? close() : open();
     });
+
+    // Close when mouse leaves the whole item
+    item.addEventListener('mouseleave', close);
   });
 
   // Mobile toggle
