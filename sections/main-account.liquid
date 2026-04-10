@@ -1,0 +1,41 @@
+<section class="main-account page-width" style="padding-block:48px;">
+  <div style="display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:32px; flex-wrap:wrap; gap:16px;">
+    <h1 style="font-size:28px; font-weight:400; color:#001914; margin:0;">Mitt konto</h1>
+    <a href="{{ routes.account_logout_url }}" style="height:40px; padding:0 20px; border-radius:70px; border:1px solid #e2e2e2; display:inline-flex; align-items:center; font-size:13px; color:#444; text-decoration:none;">Logga ut</a>
+  </div>
+
+  {%- if customer.orders.size > 0 -%}
+    <h2 style="font-size:18px; font-weight:500; color:#222; margin:0 0 16px;">Orderhistorik</h2>
+    <table style="width:100%; border-collapse:collapse;">
+      <thead>
+        <tr style="border-bottom:2px solid #e2e2e2; text-align:left;">
+          <th style="padding-bottom:12px; font-size:13px; color:#666; font-weight:500;">Order</th>
+          <th style="padding-bottom:12px; font-size:13px; color:#666; font-weight:500;">Datum</th>
+          <th style="padding-bottom:12px; font-size:13px; color:#666; font-weight:500;">Status</th>
+          <th style="padding-bottom:12px; font-size:13px; color:#666; font-weight:500; text-align:right;">Totalt</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%- for order in customer.orders -%}
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:14px 0;">
+              <a href="{{ order.customer_url }}" style="color:#00352B; font-weight:500; text-decoration:none;">{{ order.name }}</a>
+            </td>
+            <td style="padding:14px 0; font-size:14px; color:#666;">{{ order.created_at | date: '%d %b %Y' }}</td>
+            <td style="padding:14px 0;">
+              <span style="font-size:12px; padding:3px 10px; border-radius:20px; background:#f0f9f5; color:#00352B; font-weight:500;">{{ order.financial_status_label }}</span>
+            </td>
+            <td style="padding:14px 0; text-align:right; font-size:14px; color:#222;">{{ order.total_price | money }}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  {%- else -%}
+    <p style="color:#666; font-size:15px;">Du har inga beställningar ännu.</p>
+    <a href="{{ routes.root_url }}" style="display:inline-flex; align-items:center; height:48px; padding:0 28px; border-radius:70px; background:#00352B; color:#00E697; text-decoration:none; font-size:14px; margin-top:16px;">Börja handla</a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{ "name": "Account", "tag": "section", "class": "section", "settings": [] }
+{% endschema %}

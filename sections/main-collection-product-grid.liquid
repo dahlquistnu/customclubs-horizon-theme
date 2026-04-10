@@ -1,0 +1,182 @@
+<section class="main-collection page-width" style="padding-block:32px;">
+
+  {%- comment -%} Collection header {%- endcomment -%}
+  <div style="margin-bottom:28px;">
+    <h1 style="font-size:32px; font-weight:400; color:#001914; margin:0 0 8px;">{{ collection.title | escape }}</h1>
+    {%- if collection.description != blank -%}
+      <div style="font-size:14px; color:#666; max-width:700px; line-height:1.6;">{{ collection.description }}</div>
+    {%- endif -%}
+  </div>
+
+  <div style="display:flex; gap:32px; align-items:flex-start;">
+
+    {%- comment -%} Sidebar filters {%- endcomment -%}
+    {%- if section.settings.show_filters -%}
+      <aside style="width:220px; flex-shrink:0; position:sticky; top:20px;">
+        <div style="background:#f7f7f7; border-radius:8px; padding:16px;">
+          <h2 style="font-size:14px; font-weight:600; color:#222; margin:0 0 12px; text-transform:uppercase; letter-spacing:0.06em;">Filter</h2>
+          {%- for filter in collection.filters -%}
+            <div style="margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid #e2e2e2;">
+              <h3 style="font-size:13px; font-weight:500; color:#444; margin:0 0 8px;">{{ filter.label | escape }}</h3>
+              {%- case filter.type -%}
+                {%- when 'list' -%}
+                  <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:4px;">
+                    {%- for value in filter.values -%}
+                      <li>
+                        <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:13px; color:#444;">
+                          <input
+                            type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            {% if value.active %}checked{% endif %}
+                            style="accent-color:#00E697;"
+                          >
+                          {{ value.label | escape }}
+                          <span style="color:#999; font-size:12px;">({{ value.count }})</span>
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- when 'price_range' -%}
+                  <div style="display:flex; gap:8px; align-items:center;">
+                    <input
+                      type="number"
+                      name="{{ filter.min_value.param_name }}"
+                      value="{{ filter.min_value.value | divided_by: 100 }}"
+                      placeholder="Min"
+                      style="width:80px; height:36px; border:1px solid #e2e2e2; border-radius:6px; padding:0 8px; font-size:13px;"
+                    >
+                    <span style="color:#999;">—</span>
+                    <input
+                      type="number"
+                      name="{{ filter.max_value.param_name }}"
+                      value="{{ filter.max_value.value | divided_by: 100 }}"
+                      placeholder="Max"
+                      style="width:80px; height:36px; border:1px solid #e2e2e2; border-radius:6px; padding:0 8px; font-size:13px;"
+                    >
+                  </div>
+              {%- endcase -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </aside>
+    {%- endif -%}
+
+    {%- comment -%} Products grid {%- endcomment -%}
+    <div style="flex:1; min-width:0;">
+
+      {%- comment -%} Sort & count bar {%- endcomment -%}
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; flex-wrap:wrap; gap:12px;">
+        <p style="font-size:13px; color:#666; margin:0;">{{ collection.products_count }} produkter</p>
+        {%- if section.settings.show_sort -%}
+          <div style="display:flex; align-items:center; gap:8px;">
+            <label for="sort-by" style="font-size:13px; color:#666;">Sortera:</label>
+            <select
+              id="sort-by"
+              name="sort_by"
+              onchange="window.location.href = window.location.pathname + '?sort_by=' + this.value"
+              style="height:36px; border:1px solid #e2e2e2; border-radius:20px; padding:0 28px 0 12px; font-size:13px; color:#222; cursor:pointer; appearance:none; background:#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\") no-repeat right 10px center;"
+            >
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>
+                  {{ option.name }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- paginate collection.products by section.settings.products_per_page -%}
+        {%- if collection.products.size > 0 -%}
+          <ul style="display:grid; grid-template-columns:repeat({{ section.settings.columns_desktop }},1fr); gap:16px; list-style:none; padding:0; margin:0;" role="list">
+            {%- for product in collection.products -%}
+              <li>{% render 'product-card', product: product, show_vendor: section.settings.show_vendor %}</li>
+            {%- endfor -%}
+          </ul>
+
+          {%- comment -%} Pagination {%- endcomment -%}
+          {%- if paginate.pages > 1 -%}
+            <nav style="display:flex; justify-content:center; align-items:center; gap:8px; margin-top:40px; flex-wrap:wrap;" aria-label="Pagination">
+              {%- if paginate.previous -%}
+                <a href="{{ paginate.previous.url }}" style="height:40px; padding:0 16px; border-radius:70px; border:1px solid #e2e2e2; display:inline-flex; align-items:center; font-size:14px; color:#222; text-decoration:none;">&larr; Föregående</a>
+              {%- endif -%}
+              {%- for part in paginate.parts -%}
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" style="width:40px; height:40px; border-radius:50%; border:1px solid #e2e2e2; display:inline-flex; align-items:center; justify-content:center; font-size:14px; color:#222; text-decoration:none;">{{ part.title }}</a>
+                {%- elsif part.title == paginate.current_page -%}
+                  <span style="width:40px; height:40px; border-radius:50%; background:#00352B; color:#00E697; display:inline-flex; align-items:center; justify-content:center; font-size:14px; font-weight:600;">{{ part.title }}</span>
+                {%- else -%}
+                  <span style="width:40px; height:40px; display:inline-flex; align-items:center; justify-content:center; color:#999;">{{ part.title }}</span>
+                {%- endif -%}
+              {%- endfor -%}
+              {%- if paginate.next -%}
+                <a href="{{ paginate.next.url }}" style="height:40px; padding:0 16px; border-radius:70px; border:1px solid #e2e2e2; display:inline-flex; align-items:center; font-size:14px; color:#222; text-decoration:none;">Nästa &rarr;</a>
+              {%- endif -%}
+            </nav>
+          {%- endif -%}
+
+        {%- else -%}
+          <p style="color:#666; padding:40px 0;">Inga produkter hittades.</p>
+        {%- endif -%}
+      {%- endpaginate -%}
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (max-width: 990px) {
+    .main-collection > div { flex-direction: column !important; }
+    .main-collection aside { width: 100% !important; position: static !important; }
+    .main-collection ul { grid-template-columns: repeat(3,1fr) !important; }
+  }
+  @media (max-width: 750px) {
+    .main-collection ul { grid-template-columns: repeat(2,1fr) !important; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection product grid",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "label": "Products per page",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Columns (desktop)",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show filters sidebar",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sort",
+      "label": "Show sort dropdown",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
