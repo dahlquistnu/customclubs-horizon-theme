@@ -1,5 +1,3 @@
-{{ 'custom.css' | asset_url | stylesheet_tag }}
-
 <footer class="footer">
   <div class="page-width">
     <div class="footer__content-top">
@@ -26,7 +24,7 @@
 
               {%- if block.settings.show_newsletter -%}
                 <p class="footer__heading" style="margin-bottom: 8px;">{{ block.settings.newsletter_label | default: 'Nyhetsbrev' }}</p>
-                <form class="footer__newsletter-form" action="{{ routes.root_url }}" method="get">
+                <form class="footer__newsletter-form" method="post" action="/contact#contact_form">
                   <input type="email" name="contact[email]" placeholder="Din e-post" required>
                   <button type="submit">Prenumerera</button>
                 </form>

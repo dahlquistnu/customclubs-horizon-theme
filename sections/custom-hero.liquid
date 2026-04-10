@@ -1,5 +1,3 @@
-{{ 'custom.css' | asset_url | stylesheet_tag }}
-
 {%- style -%}
   #Banner-{{ section.id }} .banner__media::after {
     opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};

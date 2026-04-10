@@ -29,7 +29,7 @@
 
 /* --- Base --------------------------------------------------- */
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: var(--font-body-family, 'Helvetica Neue', Helvetica, Arial, sans-serif);
   font-size: var(--font-size-base);
   font-weight: 400;
   line-height: var(--line-height-base);
