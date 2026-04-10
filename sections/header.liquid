@@ -1,180 +1,370 @@
-<header class="header" role="banner" data-header>
-  {%- if section.settings.show_announcement -%}
-    {%- if section.settings.announcement_text != blank -%}
-      <div class="header__announcement" style="background:#00352B; color:#fff; text-align:center; font-size:13px; padding:6px 20px;">
-        {{ section.settings.announcement_text }}
-      </div>
-    {%- endif -%}
-  {%- endif -%}
+<style>
+.site-header {
+  background: #001914;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+  padding-block: 18px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-inline: 15px;
+}
+/* Logo */
+.site-header__logo a { text-decoration: none; display: block; }
+.site-header__logo img { display: block; height: 52px; width: auto; }
+.site-header__logo-text { font-size: 22px; font-weight: 600; color: #00E697; letter-spacing: -0.02em; }
 
-  <div class="header__inner page-width" style="display:flex; align-items:center; gap:20px; padding-block:20px;">
+/* Nav + Search center column */
+.site-header__center {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  justify-content: center;
+}
+
+/* Pill-bordered nav */
+.site-nav {
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.9);
+  border-radius: 50px;
+  padding-inline: 8px;
+  list-style: none;
+  margin: 0;
+  gap: 0;
+}
+.site-nav li { position: relative; }
+.site-nav li > a,
+.site-nav li > button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 48px;
+  padding: 0 13px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-family: inherit;
+  line-height: 1;
+}
+.site-nav li > a:hover,
+.site-nav li > button:hover,
+.site-nav li > a.active,
+.site-nav li > button[aria-expanded="true"] { color: #00E697; }
+.site-nav li > button svg { transition: transform 0.2s; }
+.site-nav li > button[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+/* Dropdown */
+.site-nav__dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  min-width: 200px;
+  background: #001914;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-top: 2px solid #00E697;
+  border-radius: 0 0 12px 12px;
+  padding: 8px;
+  list-style: none;
+  margin: 0;
+  z-index: 300;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.site-nav__dropdown a {
+  display: block;
+  padding: 9px 12px;
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.site-nav__dropdown a:hover { background: rgba(0,230,151,0.12); color: #00E697; }
+
+/* Search */
+.site-search {
+  border: 1px solid rgba(255,255,255,0.45);
+  border-radius: 50px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  width: 280px;
+}
+.site-search input {
+  flex: 1;
+  height: 46px;
+  border: none;
+  background: transparent;
+  padding: 0 16px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  font-family: inherit;
+}
+.site-search input::placeholder { color: rgba(255,255,255,0.55); }
+.site-search button {
+  height: 46px;
+  width: 46px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: rgba(255,255,255,0.7);
+  flex-shrink: 0;
+  transition: color 0.2s;
+}
+.site-search button:hover { color: #00E697; }
+
+/* Right: secondary nav */
+.site-nav-secondary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+.site-nav-secondary li a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 50px;
+  padding: 0 20px 0 10px;
+  height: 50px;
+  background: #fff;
+  color: #001914;
+  font-size: 14px;
+  font-weight: 400;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.site-nav-secondary li a:hover { background: #f0f0f0; }
+.site-nav-secondary li:first-child a {
+  background: #00E697;
+  color: #001914;
+}
+.site-nav-secondary li:first-child a:hover { background: #00d389; }
+.site-nav-secondary__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #001914;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+.site-nav-secondary__icon img { width: 16px; height: 16px; }
+
+/* Cart */
+.site-header__cart {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: #fff;
+  border-radius: 50%;
+  position: relative;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.site-header__cart:hover { background: #f0f0f0; }
+.site-header__cart-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #00E697;
+  color: #001914;
+  border: 2px solid #001914;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Mobile */
+.site-header__mobile-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: #fff;
+}
+.site-header__mobile-nav {
+  display: none;
+  background: #001914;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.site-header__mobile-nav ul {
+  list-style: none;
+  padding: 12px;
+  margin: 0;
+  max-width: 1400px;
+  margin-inline: auto;
+}
+.site-header__mobile-nav li { border-bottom: 1px solid rgba(255,255,255,0.07); }
+.site-header__mobile-nav a {
+  display: block;
+  padding: 14px 8px;
+  color: #fff;
+  font-size: 15px;
+  text-decoration: none;
+}
+.site-header__mobile-nav a:hover { color: #00E697; }
+
+@media (max-width: 990px) {
+  .site-header__center { display: none; }
+  .site-nav-secondary { display: none; }
+  .site-header__mobile-toggle { display: flex; }
+}
+</style>
+
+<header class="site-header" role="banner" data-header>
+  <div class="site-header__inner">
 
     {%- comment -%} Logo {%- endcomment -%}
-    <div class="header__logo" style="flex-shrink:0;">
-      <a href="{{ routes.root_url }}" class="header__logo-link">
+    <div class="site-header__logo">
+      <a href="{{ routes.root_url }}">
         {%- if settings.logo != blank -%}
           <img
             src="{{ settings.logo | image_url: width: 280 }}"
             srcset="{{ settings.logo | image_url: width: 140 }} 140w, {{ settings.logo | image_url: width: 280 }} 280w"
             width="{{ settings.logo_width }}"
-            height="auto"
+            height="52"
             alt="{{ shop.name | escape }}"
             loading="eager"
-            class="header__logo-image"
-            style="max-height:60px; width:auto; display:block;"
           >
         {%- else -%}
-          <span style="font-size:22px; font-weight:600; color:#00E697; letter-spacing:-0.02em;">
-            {{ shop.name }}
-          </span>
+          <span class="site-header__logo-text">{{ shop.name }}</span>
         {%- endif -%}
       </a>
     </div>
 
-    {%- comment -%} Search {%- endcomment -%}
-    <div class="header__search" style="flex:1; max-width:340px;">
-      <form action="{{ routes.search_url }}" method="get" role="search" style="display:flex; align-items:center; gap:0;">
+    {%- comment -%} Center: Nav + Search {%- endcomment -%}
+    <div class="site-header__center">
+      {%- if section.settings.menu != blank -%}
+        <ul class="site-nav" role="list" aria-label="Huvudmeny">
+          {%- for link in section.settings.menu.links -%}
+            {%- if link.links != blank -%}
+              <li class="site-nav__item site-nav__item--dropdown">
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="site-nav__trigger"
+                >
+                  {{ link.title | escape }}
+                  <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <ul class="site-nav__dropdown" role="list">
+                  {%- for child in link.links -%}
+                    <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
+                  {%- endfor -%}
+                </ul>
+              </li>
+            {%- else -%}
+              <li class="site-nav__item">
+                <a href="{{ link.url }}"{% if link.active %} class="active"{% endif %}>{{ link.title | escape }}</a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <form class="site-search" action="{{ routes.search_url }}" method="get" role="search">
         <input
           type="search"
           name="q"
           value="{{ search.terms | escape }}"
-          placeholder="{{ 'general.search.placeholder' | t }}"
-          aria-label="{{ 'general.search.search' | t }}"
-          style="flex:1; height:48px; border-radius:25px 0 0 25px; border:none; padding:0 16px; font-size:14px; outline:none; color:#222;"
+          placeholder="Sök produkt..."
+          aria-label="Sök"
+          autocomplete="off"
         >
-        <button
-          type="submit"
-          aria-label="{{ 'general.search.search' | t }}"
-          style="height:48px; padding:0 18px; background:#00E697; color:#001914; border:none; border-radius:0 25px 25px 0; cursor:pointer; font-size:14px; font-weight:500; white-space:nowrap;"
-        >
-          Sök
+        <button type="submit" aria-label="Sök">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
         </button>
       </form>
     </div>
 
-    {%- comment -%} Right icons {%- endcomment -%}
-    <div class="header__icons" style="display:flex; align-items:center; gap:8px; margin-left:auto; flex-shrink:0;">
+    {%- comment -%} Right: CTAs + Cart {%- endcomment -%}
+    <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+      <ul class="site-nav-secondary" role="list">
+        <li>
+          <a href="/info/custom-fitting/">
+            <span class="site-nav-secondary__icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+            </span>
+            Custom Fitting
+          </a>
+        </li>
+        <li>
+          <a href="/info/villkor/">
+            <span class="site-nav-secondary__icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0"/></svg>
+            </span>
+            Kundtjänst
+          </a>
+        </li>
+      </ul>
 
-      {%- comment -%} Account {%- endcomment -%}
-      {%- if section.settings.show_account -%}
-        <a
-          href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-          aria-label="Konto"
-          class="header__icon"
-          style="width:44px; height:44px; border-radius:50%; background:rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; transition:background 0.2s;"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a8.25 8.25 0 0115 0"/>
-          </svg>
-        </a>
-      {%- endif -%}
-
-      {%- comment -%} Cart {%- endcomment -%}
       <a
         href="{{ routes.cart_url }}"
+        class="site-header__cart"
         aria-label="Kundvagn ({{ cart.item_count }} artiklar)"
-        class="header__icon header__icon--cart"
         id="cart-icon-bubble"
-        style="width:50px; height:50px; border-radius:50%; background:rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; position:relative; transition:background 0.2s; text-decoration:none;"
       >
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24">
+        <svg width="22" height="22" fill="none" stroke="#001914" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007z"/>
         </svg>
         {%- if cart.item_count > 0 -%}
-          <span class="cart-count-bubble" style="position:absolute; top:-2px; right:-2px; width:20px; height:20px; background:#00E697; color:#001914; border-radius:50%; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; line-height:1;">
-            {{ cart.item_count }}
-          </span>
+        <span class="site-header__cart-count" id="cart-count">{{ cart.item_count }}</span>
         {%- endif -%}
       </a>
 
-      {%- comment -%} Mobile menu button {%- endcomment -%}
-      <button
-        class="header__menu-toggle"
-        aria-expanded="false"
-        aria-controls="mobile-nav"
-        aria-label="Öppna meny"
-        style="display:none; width:44px; height:44px; background:transparent; border:none; cursor:pointer; align-items:center; justify-content:center; border-radius:50%; background:rgba(255,255,255,0.1);"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="#fff" stroke-width="1.5" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
-        </svg>
+      {%- comment -%} Mobile toggle {%- endcomment -%}
+      <button class="site-header__mobile-toggle" aria-expanded="false" aria-controls="mobile-nav" aria-label="Öppna meny">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
       </button>
     </div>
   </div>
 
-  {%- comment -%} Desktop Navigation {%- endcomment -%}
-  {%- if section.settings.menu != blank -%}
-    <nav class="header__nav" role="navigation" aria-label="Huvudmeny" style="background:#001914; border-top:1px solid rgba(255,255,255,0.07);">
-      <div class="page-width" style="display:flex; align-items:center; gap:4px; padding-block:8px; overflow-x:auto;">
-        {%- for link in section.settings.menu.links -%}
-          {%- if link.links != blank -%}
-            <div class="nav-item nav-item--has-dropdown" style="position:relative;">
-              <button
-                class="nav-link nav-link--button"
-                aria-expanded="false"
-                aria-haspopup="true"
-                style="display:inline-flex; align-items:center; gap:6px; height:42px; padding:0 16px; border-radius:70px; color:#fff; font-size:14px; background:transparent; border:none; cursor:pointer; white-space:nowrap; transition:background 0.2s, color 0.2s;"
-              >
-                {{ link.title | escape }}
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
-                </svg>
-              </button>
-              <ul
-                class="nav-dropdown"
-                role="list"
-                style="display:none; position:absolute; top:calc(100% + 8px); left:0; min-width:200px; background:#001914; border:1px solid rgba(255,255,255,0.1); border-top:2px solid #00E697; border-radius:0 0 8px 8px; padding:8px; list-style:none; margin:0; z-index:100; box-shadow:0 8px 24px rgba(0,0,0,0.3);"
-              >
-                {%- for child in link.links -%}
-                  <li>
-                    <a
-                      href="{{ child.url }}"
-                      style="display:block; padding:8px 12px; color:rgba(255,255,255,0.85); font-size:13px; border-radius:6px; transition:background 0.15s, color 0.15s; text-decoration:none;"
-                    >
-                      {{ child.title | escape }}
-                    </a>
-                  </li>
-                {%- endfor -%}
-              </ul>
-            </div>
-          {%- else -%}
-            <a
-              href="{{ link.url }}"
-              class="nav-link{% if link.active %} nav-link--active{% endif %}"
-              style="display:inline-flex; align-items:center; height:42px; padding:0 16px; border-radius:70px; color:#fff; font-size:14px; text-decoration:none; white-space:nowrap; transition:background 0.2s, color 0.2s;{% if link.active %} background:#00E697; color:#001914;{% endif %}"
-            >
-              {{ link.title | escape }}
-            </a>
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-    </nav>
-  {%- endif -%}
-
-  {%- comment -%} Mobile Navigation {%- endcomment -%}
-  <nav
-    id="mobile-nav"
-    class="header__mobile-nav"
-    aria-hidden="true"
-    style="display:none; background:#001914; border-top:1px solid rgba(255,255,255,0.1);"
-  >
-    <ul role="list" style="list-style:none; padding:12px; margin:0;">
+  {%- comment -%} Mobile nav {%- endcomment -%}
+  <nav id="mobile-nav" class="site-header__mobile-nav" aria-label="Mobilmeny" aria-hidden="true">
+    <ul role="list">
       {%- for link in section.settings.menu.links -%}
-        <li style="border-bottom:1px solid rgba(255,255,255,0.07);">
-          <a
-            href="{{ link.url }}"
-            style="display:block; padding:14px 8px; color:#fff; font-size:15px; text-decoration:none;"
-          >
-            {{ link.title | escape }}
-          </a>
+        <li>
+          <a href="{{ link.url }}">{{ link.title | escape }}</a>
           {%- if link.links != blank -%}
             <ul role="list" style="list-style:none; padding:0 0 8px 16px; margin:0;">
               {%- for child in link.links -%}
-                <li>
-                  <a href="{{ child.url }}" style="display:block; padding:8px; color:rgba(255,255,255,0.7); font-size:14px; text-decoration:none;">
-                    {{ child.title | escape }}
-                  </a>
-                </li>
+                <li><a href="{{ child.url }}" style="color:rgba(255,255,255,0.7); font-size:13px;">{{ child.title | escape }}</a></li>
               {%- endfor -%}
             </ul>
           {%- endif -%}
@@ -186,59 +376,33 @@
 
 <script>
 (function() {
-  // Dropdown hover/click
-  document.querySelectorAll('.nav-item--has-dropdown').forEach(function(item) {
-    var btn = item.querySelector('.nav-link--button');
-    var dropdown = item.querySelector('.nav-dropdown');
-    if (!btn || !dropdown) return;
+  // Dropdown behaviour
+  document.querySelectorAll('.site-nav__item--dropdown').forEach(function(item) {
+    var btn = item.querySelector('.site-nav__trigger');
+    var menu = item.querySelector('.site-nav__dropdown');
+    if (!btn || !menu) return;
 
-    btn.addEventListener('mouseenter', function() { openDropdown(btn, dropdown); });
-    item.addEventListener('mouseleave', function() { closeDropdown(btn, dropdown); });
+    function open() { btn.setAttribute('aria-expanded','true'); menu.style.display='block'; }
+    function close() { btn.setAttribute('aria-expanded','false'); menu.style.display=''; }
+
+    item.addEventListener('mouseenter', open);
+    item.addEventListener('mouseleave', close);
     btn.addEventListener('click', function() {
-      if (dropdown.style.display === 'none') { openDropdown(btn, dropdown); }
-      else { closeDropdown(btn, dropdown); }
+      btn.getAttribute('aria-expanded') === 'true' ? close() : open();
     });
-    btn.addEventListener('focus', function() { openDropdown(btn, dropdown); });
-  });
-
-  function openDropdown(btn, dropdown) {
-    btn.setAttribute('aria-expanded', 'true');
-    btn.style.background = '#00E697';
-    btn.style.color = '#001914';
-    dropdown.style.display = 'block';
-  }
-
-  function closeDropdown(btn, dropdown) {
-    btn.setAttribute('aria-expanded', 'false');
-    btn.style.background = '';
-    btn.style.color = '';
-    dropdown.style.display = 'none';
-  }
-
-  // Dropdown link hover
-  document.querySelectorAll('.nav-dropdown a').forEach(function(a) {
-    a.addEventListener('mouseenter', function() { this.style.background = '#00E697'; this.style.color = '#001914'; });
-    a.addEventListener('mouseleave', function() { this.style.background = ''; this.style.color = ''; });
   });
 
   // Mobile toggle
-  var toggle = document.querySelector('.header__menu-toggle');
-  var mobileNav = document.getElementById('mobile-nav');
-  if (toggle && mobileNav) {
+  var toggle = document.querySelector('.site-header__mobile-toggle');
+  var mNav   = document.getElementById('mobile-nav');
+  if (toggle && mNav) {
     toggle.addEventListener('click', function() {
-      var open = mobileNav.style.display !== 'none' && mobileNav.style.display !== '';
-      mobileNav.style.display = open ? 'none' : 'block';
-      mobileNav.setAttribute('aria-hidden', open ? 'true' : 'false');
+      var open = mNav.style.display === 'block';
+      mNav.style.display = open ? '' : 'block';
+      mNav.setAttribute('aria-hidden', open ? 'true' : 'false');
       toggle.setAttribute('aria-expanded', open ? 'false' : 'true');
     });
   }
-
-  // Show mobile toggle on small screens
-  function checkMobile() {
-    if (toggle) toggle.style.display = window.innerWidth <= 990 ? 'flex' : 'none';
-  }
-  checkMobile();
-  window.addEventListener('resize', checkMobile);
 })();
 </script>
 
@@ -253,23 +417,6 @@
       "id": "menu",
       "default": "main-menu",
       "label": "Menu"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_account",
-      "label": "Show account icon",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_announcement",
-      "label": "Show announcement in header",
-      "default": false
-    },
-    {
-      "type": "text",
-      "id": "announcement_text",
-      "label": "Announcement text"
     }
   ]
 }

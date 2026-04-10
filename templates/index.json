@@ -6,7 +6,7 @@
         "announcement_1": {
           "type": "announcement",
           "settings": {
-            "text": "<p>⭐ 4.8 på Trustpilot &nbsp;|&nbsp; Europas största utbud på Custom &nbsp;|&nbsp; Alltid fri frakt</p>"
+            "text": "<p>⭐ 4.8 på Trustpilot &nbsp;&nbsp;|&nbsp;&nbsp; Europas största utbud på Custom &nbsp;&nbsp;|&nbsp;&nbsp; Alltid fri frakt 🚚</p>"
           }
         }
       },
@@ -18,37 +18,102 @@
     "hero": {
       "type": "custom-hero",
       "settings": {
-        "heading": "Customize your passion",
-        "subheading": "När detaljer spelar roll skapar vi golfklubbor som gör skillnad. Vi kombinerar passion och precision för att skapa golfklubbor som är unikt anpassade för dig.",
-        "button_label_1": "Boka custom fitting",
-        "button_label_2": "Se alla produkter",
-        "banner_height": 580,
-        "image_overlay_opacity": 50
+        "heading_highlight": "Customize",
+        "heading_rest": "your passion",
+        "subheading": "När detaljer spelar roll skapar vi golfklubbor som gör skillnad. Vi kombinerar passion och precision för att skapa golfklubbor som är unikt anpassade för dig."
       }
     },
     "category_tiles": {
       "type": "category-tiles",
       "blocks": {
-        "cat_1": { "type": "category", "settings": { "title": "Drivers" } },
-        "cat_2": { "type": "category", "settings": { "title": "Fairwaywoods" } },
-        "cat_3": { "type": "category", "settings": { "title": "Järnset" } },
-        "cat_4": { "type": "category", "settings": { "title": "Wedgar" } },
-        "cat_5": { "type": "category", "settings": { "title": "Putters" } }
+        "cat_1": { "type": "category", "settings": { "title": "Wedgar", "link": "/collections/wedgar" } },
+        "cat_2": { "type": "category", "settings": { "title": "Drivers", "link": "/collections/drivers" } },
+        "cat_3": { "type": "category", "settings": { "title": "Fairwaywoods", "link": "/collections/fairwaywoods" } },
+        "cat_4": { "type": "category", "settings": { "title": "Hybrider/Utility", "link": "/collections/hybrider" } },
+        "cat_5": { "type": "category", "settings": { "title": "Järnset", "link": "/collections/jarnset" } }
       },
       "block_order": ["cat_1", "cat_2", "cat_3", "cat_4", "cat_5"],
+      "settings": {}
+    },
+    "custom_fitting_promo": {
+      "type": "custom-fitting-promo",
       "settings": {
-        "heading": "Shoppa efter kategori",
-        "columns": 5
+        "label": "Fitting Centers i Göteborg",
+        "heading": "Upplev custom fitting på riktigt",
+        "subheading": "Boka en tid med en av våra experter och hitta de perfekta klubborna för ditt spel. Vi kombinerar data och känsla för ett resultat du verkligen märker.",
+        "button_label_1": "Boka tid för custom fitting",
+        "button_label_2": "Läs mer om custom fitting"
       }
     },
-    "featured_collection": {
+    "featured_1": {
       "type": "featured-collection",
       "settings": {
-        "title": "Utvalda produkter",
-        "products_to_show": 5,
-        "columns_desktop": 5
+        "title": "Season Opener",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "show_view_all": true,
+        "show_badges": true
+      }
+    },
+    "featured_2": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Nyheter från TaylorMade",
+        "products_to_show": 6,
+        "columns_desktop": 3,
+        "show_view_all": true,
+        "show_badges": true
+      }
+    },
+    "featured_3": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Nyheter från Titleist",
+        "products_to_show": 6,
+        "columns_desktop": 3,
+        "show_view_all": true,
+        "show_badges": true
+      }
+    },
+    "featured_4": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Nyheter från Callaway",
+        "products_to_show": 6,
+        "columns_desktop": 3,
+        "show_view_all": true,
+        "show_badges": true
+      }
+    },
+    "brand_logos": {
+      "type": "brand-logos",
+      "blocks": {
+        "b1": { "type": "brand", "settings": { "name": "TaylorMade" } },
+        "b2": { "type": "brand", "settings": { "name": "Titleist" } },
+        "b3": { "type": "brand", "settings": { "name": "Callaway" } },
+        "b4": { "type": "brand", "settings": { "name": "Mizuno" } },
+        "b5": { "type": "brand", "settings": { "name": "Ping" } },
+        "b6": { "type": "brand", "settings": { "name": "Cleveland" } },
+        "b7": { "type": "brand", "settings": { "name": "Srixon" } },
+        "b8": { "type": "brand", "settings": { "name": "PXG" } },
+        "b9": { "type": "brand", "settings": { "name": "Miura" } },
+        "b10": { "type": "brand", "settings": { "name": "Honma" } }
+      },
+      "block_order": ["b1","b2","b3","b4","b5","b6","b7","b8","b9","b10"],
+      "settings": {
+        "heading": "Våra varumärken"
       }
     }
   },
-  "order": ["announcement", "hero", "category_tiles", "featured_collection"]
+  "order": [
+    "announcement",
+    "hero",
+    "category_tiles",
+    "custom_fitting_promo",
+    "featured_1",
+    "featured_2",
+    "featured_3",
+    "featured_4",
+    "brand_logos"
+  ]
 }
