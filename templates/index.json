@@ -1,0 +1,54 @@
+{
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_1": {
+          "type": "announcement",
+          "settings": {
+            "text": "<p>⭐ 4.8 på Trustpilot &nbsp;|&nbsp; Europas största utbud på Custom &nbsp;|&nbsp; Alltid fri frakt</p>"
+          }
+        }
+      },
+      "block_order": ["announcement_1"],
+      "settings": {
+        "color_scheme": "accent-2"
+      }
+    },
+    "hero": {
+      "type": "custom-hero",
+      "settings": {
+        "heading": "Customize your passion",
+        "subheading": "När detaljer spelar roll skapar vi golfklubbor som gör skillnad. Vi kombinerar passion och precision för att skapa golfklubbor som är unikt anpassade för dig.",
+        "button_label_1": "Boka custom fitting",
+        "button_label_2": "Se alla produkter",
+        "banner_height": 580,
+        "image_overlay_opacity": 50
+      }
+    },
+    "category_tiles": {
+      "type": "category-tiles",
+      "blocks": {
+        "cat_1": { "type": "category", "settings": { "title": "Drivers" } },
+        "cat_2": { "type": "category", "settings": { "title": "Fairwaywoods" } },
+        "cat_3": { "type": "category", "settings": { "title": "Järnset" } },
+        "cat_4": { "type": "category", "settings": { "title": "Wedgar" } },
+        "cat_5": { "type": "category", "settings": { "title": "Putters" } }
+      },
+      "block_order": ["cat_1", "cat_2", "cat_3", "cat_4", "cat_5"],
+      "settings": {
+        "heading": "Shoppa efter kategori",
+        "columns": 5
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Utvalda produkter",
+        "products_to_show": 5,
+        "columns_desktop": 5
+      }
+    }
+  },
+  "order": ["announcement", "hero", "category_tiles", "featured_collection"]
+}

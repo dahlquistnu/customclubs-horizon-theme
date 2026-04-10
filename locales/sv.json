@@ -1,0 +1,47 @@
+{
+  "accessibility": {
+    "skip_to_text": "Hoppa till innehåll",
+    "refresh_page": "Uppdatera sidan",
+    "link_messages": {
+      "new_window": "Öppnas i ett nytt fönster"
+    }
+  },
+  "general": {
+    "search": {
+      "search": "Sök",
+      "placeholder": "Sök produkter...",
+      "no_results": "Inga resultat för \"{{ terms }}\""
+    },
+    "currency": {
+      "label": "Valuta"
+    },
+    "language": {
+      "label": "Språk"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Lägg i kundvagnen",
+      "sold_out": "Slutsåld",
+      "unavailable": "Ej tillgänglig",
+      "quantity": {
+        "label": "Antal"
+      }
+    },
+    "facets": {
+      "filters": "Filter",
+      "clear_all": "Rensa alla"
+    }
+  },
+  "sections": {
+    "cart": {
+      "title": "Din kundvagn",
+      "empty": "Din kundvagn är tom",
+      "checkout": "Till kassan",
+      "continue_shopping": "Fortsätt handla"
+    },
+    "header": {
+      "menu": "Meny"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "refresh_page": "Refresh page",
+    "link_messages": {
+      "new_window": "Opens in a new window"
+    }
+  },
+  "general": {
+    "search": {
+      "search": "Search",
+      "placeholder": "Search products...",
+      "no_results": "No results for \"{{ terms }}\""
+    },
+    "currency": {
+      "label": "Currency"
+    },
+    "language": {
+      "label": "Language"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
+      "unavailable": "Unavailable",
+      "quantity": {
+        "label": "Quantity"
+      }
+    },
+    "facets": {
+      "filters": "Filters",
+      "clear_all": "Clear all"
+    }
+  },
+  "sections": {
+    "cart": {
+      "title": "Your cart",
+      "empty": "Your cart is empty",
+      "checkout": "Check out",
+      "continue_shopping": "Continue shopping"
+    },
+    "header": {
+      "menu": "Menu"
+    }
+  }
+}

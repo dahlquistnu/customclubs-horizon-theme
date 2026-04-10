@@ -1,0 +1,144 @@
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  #Banner-{{ section.id }} .banner__media::after {
+    opacity: {{ section.settings.image_overlay_opacity | divided_by: 100.0 }};
+  }
+{%- endstyle -%}
+
+<div
+  id="Banner-{{ section.id }}"
+  class="banner section-{{ section.id }}-padding"
+  style="min-height: {{ section.settings.banner_height }}px;"
+>
+  {%- if section.settings.image != blank -%}
+    <div class="banner__media media">
+      {%- assign img = section.settings.image -%}
+      <img
+        src="{{ img | image_url: width: 1800 }}"
+        srcset="
+          {{ img | image_url: width: 750 }} 750w,
+          {{ img | image_url: width: 1100 }} 1100w,
+          {{ img | image_url: width: 1500 }} 1500w,
+          {{ img | image_url: width: 1800 }} 1800w
+        "
+        sizes="100vw"
+        alt="{{ img.alt | escape }}"
+        loading="eager"
+        fetchpriority="high"
+        width="{{ img.width }}"
+        height="{{ img.height }}"
+      >
+    </div>
+  {%- else -%}
+    <div class="banner__media banner__media--placeholder" style="background-color: #001914;"></div>
+  {%- endif -%}
+
+  <div class="banner__box banner__content page-width">
+    <div class="banner__box-inner" style="max-width: 700px;">
+      {%- if section.settings.heading != blank -%}
+        <h1 class="banner__heading">
+          {{ section.settings.heading }}
+        </h1>
+      {%- endif -%}
+
+      {%- if section.settings.subheading != blank -%}
+        <p class="banner__text">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+
+      <div class="banner__buttons">
+        {%- if section.settings.button_label_1 != blank -%}
+          <a
+            href="{{ section.settings.button_link_1 }}"
+            class="button button--primary button--large"
+          >
+            {{ section.settings.button_label_1 }}
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.button_label_2 != blank -%}
+          <a
+            href="{{ section.settings.button_link_2 }}"
+            class="button button--secondary button--large"
+          >
+            {{ section.settings.button_label_2 }}
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Hero Banner",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+    {
+      "type": "range",
+      "id": "image_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Image overlay opacity",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "banner_height",
+      "min": 300,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Banner height",
+      "default": 580
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Customize your passion",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "default": "När detaljer spelar roll skapar vi golfklubbor som gör skillnad. Vi kombinerar passion och precision för att skapa golfklubbor som är unikt anpassade för dig.",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "button_label_1",
+      "default": "Boka custom fitting",
+      "label": "Primary button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "default": "Se alla produkter",
+      "label": "Secondary button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Secondary button link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Hero Banner"
+    }
+  ]
+}
+{% endschema %}

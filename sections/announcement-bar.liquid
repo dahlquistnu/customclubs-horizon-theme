@@ -1,0 +1,68 @@
+{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+<div class="announcement-bar color-{{ section.settings.color_scheme }}">
+  <div class="page-width">
+    <div class="announcement-bar__message">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'announcement' %}
+            <span class="announcement-bar__item" {{ block.shopify_attributes }}>
+              {% if block.settings.text != blank %}
+                <span>{{ block.settings.text }}</span>
+              {% endif %}
+            </span>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "tag": "aside",
+  "class": "announcement-bar-section",
+  "max_blocks": 5,
+  "settings": [
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        { "value": "accent-1", "label": "Green" },
+        { "value": "accent-2", "label": "Dark Green" },
+        { "value": "background-1", "label": "White" },
+        { "value": "background-2", "label": "Dark" }
+      ],
+      "default": "accent-2",
+      "label": "Color scheme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>4.8 på Trustpilot ⭐ Europas största utbud på Custom ⭐ Alltid fri frakt</p>",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "<p>4.8 på Trustpilot ⭐ Europas största utbud på Custom ⭐ Alltid fri frakt</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
