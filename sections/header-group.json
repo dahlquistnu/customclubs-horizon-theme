@@ -1,0 +1,23 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "msg": {
+          "type": "announcement",
+          "settings": {
+            "text": "<p>⭐ 4.8 på Trustpilot &nbsp;|&nbsp; Europas största utbud på Custom &nbsp;|&nbsp; Alltid fri frakt</p>"
+          }
+        }
+      },
+      "block_order": ["msg"]
+    },
+    "header": {
+      "type": "header",
+      "settings": {}
+    }
+  },
+  "order": ["announcement", "header"]
+}

@@ -1,0 +1,41 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "custom-footer",
+      "blocks": {
+        "logo": {
+          "type": "logo",
+          "settings": {
+            "tagline": "Bygg din golfklubba online",
+            "show_newsletter": true
+          }
+        },
+        "links_1": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Produkter",
+            "menu": "footer"
+          }
+        },
+        "links_2": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Kundservice",
+            "menu": "footer"
+          }
+        },
+        "contact": {
+          "type": "text",
+          "settings": {
+            "heading": "Kontakt",
+            "text": "<p>Custom Clubs Sweden AB<br>info@customclubs.se</p>"
+          }
+        }
+      },
+      "block_order": ["logo", "links_1", "links_2", "contact"]
+    }
+  },
+  "order": ["footer"]
+}
