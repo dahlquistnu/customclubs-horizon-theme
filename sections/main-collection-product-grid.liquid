@@ -75,7 +75,7 @@
               id="sort-by"
               name="sort_by"
               onchange="window.location.href = window.location.pathname + '?sort_by=' + this.value"
-              style="height:36px; border:1px solid #e2e2e2; border-radius:20px; padding:0 28px 0 12px; font-size:13px; color:#222; cursor:pointer; appearance:none; background:#fff url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E\") no-repeat right 10px center;"
+              style="height:36px; border:1px solid #e2e2e2; border-radius:20px; padding:0 28px 0 12px; font-size:13px; color:#222; cursor:pointer;"
             >
               {%- for option in collection.sort_options -%}
                 <option value="{{ option.value }}" {% if option.value == collection.sort_by %}selected{% endif %}>

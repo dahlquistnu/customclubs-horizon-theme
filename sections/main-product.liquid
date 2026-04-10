@@ -11,6 +11,8 @@
             srcset="{{ product.featured_image | image_url: width: 600 }} 600w, {{ product.featured_image | image_url: width: 900 }} 900w"
             sizes="(max-width: 750px) 100vw, 50vw"
             alt="{{ product.featured_image.alt | default: product.title | escape }}"
+            width="900"
+            height="900"
             loading="eager"
             fetchpriority="high"
             style="width:100%; height:100%; object-fit:contain;"

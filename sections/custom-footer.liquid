@@ -9,7 +9,9 @@
                 <a href="{{ routes.root_url }}" style="display: block; margin-bottom: 16px;">
                   <img
                     src="{{ block.settings.image | image_url: width: 200 }}"
-                    alt="{{ shop.name }}"
+                    alt="{{ shop.name | escape }}"
+                    width="200"
+                    height="60"
                     style="max-height: 60px; width: auto;"
                   >
                 </a>
@@ -63,11 +65,7 @@
     <div class="footer__content-bottom">
       <span>
         &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}.
-        {%- if section.settings.powered_by_link -%}
-          {%- assign powered_by_link = 'powered_by_link' | t -%}
-          {{ powered_by_link }}
-        {%- endif -%}
-      </span>
+        </span>
 
       {%- if section.settings.show_payment_icons -%}
         <div class="footer__payment-icons" style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
